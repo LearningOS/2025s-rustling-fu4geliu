@@ -41,11 +41,11 @@ mod my_module {
                 Command::Trim => string.trim().to_string(), 
                 Command::Uppercase => string.to_uppercase(), 
                 Command::Append(amount) => {
-                    let mut s =string;
+                    let mut s: String = string.to_string(); 
                     for _ in 0..*amount {
-                        s = &(s.to_string()+"bar");
+                        s = s+"bar";
                     } 
-                    s.to_string()
+                    s
                 }
             };
             output.push(transformed); 
