@@ -6,7 +6,7 @@
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
-use std::vec::*;
+//use std::vec::*;
 
 #[derive(Debug)]
 struct Node<T> {
@@ -70,14 +70,50 @@ impl<T> LinkedList<T> {
         }
     }
 	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
-	{
-		//TODO
-		Self {
-            length: 0,
-            start: None,
-            end: None,
+	//TODO
+    where 
+        T: Ord,
+    {
+        let mut result = LinkedList::new();
+        let mut a = list_a.start;
+        let mut b = list_b.start;
+        while let (Some(a_ptr),Some(b_ptr)) = (a,b)
+        {
+            let a_val = unsafe { &a_ptr.as_ref().val  };
+            let b_val = unsafe { &b_ptr.as_ref().val  };
+            if a_val < b_val {
+                let next_a = unsafe { a_ptr.as_ref().next  };
+                unsafe { (*a_ptr.as_ptr()).next  = None };
+                result.add2(a_ptr)
+            } else {
+                let next_b = unsafe { b_ptr.as_ref().next  };
+                unsafe { (*b_ptr.as_ptr()).next  = None };
+                result.add2(b_ptr); 
+                b = next_b;
+            }
         }
-	}
+        while let Some(a_ptr) = a {
+            let next_a = unsafe { a_ptr.as_ref().next  };
+            unsafe { (*a_ptr.as_ptr()).next  = None };
+            result.add2(a_ptr); 
+            a = next_a;
+        }
+        while let Some(b_ptr) = b {
+            let next_b = unsafe { b_ptr.as_ref().next  };
+            unsafe { (*b_ptr.as_ptr()).next  = None };
+                result.add2(b_ptr); 
+                b = next_b;
+            }
+        result.length = list_a.length + list_b.length;
+        result
+    }
+    fn add2(&mut self, node: NonNull<Node<T>>) {
+        match self.end {
+            None => self.start = Some(node),
+            Some(end_ptr) => unsafe { (*end_ptr.as_ptr()).next = Some(node) },
+        }
+        self.end = Some(node);
+    }
 }
 
 impl<T> Display for LinkedList<T>
