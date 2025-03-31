@@ -84,7 +84,8 @@ impl<T> LinkedList<T> {
             if a_val < b_val {
                 let next_a = unsafe { a_ptr.as_ref().next  };
                 unsafe { (*a_ptr.as_ptr()).next  = None };
-                result.add2(a_ptr)
+                result.add2(a_ptr);
+                a = next_a;
             } else {
                 let next_b = unsafe { b_ptr.as_ref().next  };
                 unsafe { (*b_ptr.as_ptr()).next  = None };
@@ -107,12 +108,15 @@ impl<T> LinkedList<T> {
         result.length = list_a.length + list_b.length;
         result
     }
-    fn add2(&mut self, node: NonNull<Node<T>>) {
-        match self.end {
-            None => self.start = Some(node),
-            Some(end_ptr) => unsafe { (*end_ptr.as_ptr()).next = Some(node) },
+    fn add2(&mut self, mut node: NonNull<Node<T>>) {
+        unsafe {
+            node.as_mut().next  = None;
         }
-        self.end = Some(node);
+        match self.end  {
+            None => self.start  = Some(node),
+            Some(end_ptr) => unsafe { (*end_ptr.as_ptr()).next  = Some(node) },
+        }
+        self.end  = Some(node);
     }
 }
 
