@@ -1,12 +1,21 @@
-/*
-	sort
-	This problem requires you to implement a sorting algorithm
-	you can use bubble sorting, insertion sorting, heap sorting, etc.
-*/
-// I AM NOT DONE
+//DONE
 
-fn sort<T>(array: &mut [T]){
+fn sort<T>(array: &mut [T])
+where
+    T:Ord
+{
 	//TODO
+    let len = array.len();
+    for x in 0..len
+    {
+        for y in (x+1)..len
+        {
+            if array[x] > array[y]
+            {
+                array.swap(x,y)
+            }
+        }
+    }
 }
 #[cfg(test)]
 mod tests {
