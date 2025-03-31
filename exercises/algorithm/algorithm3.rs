@@ -5,17 +5,8 @@ where
     T:Ord
 {
 	//TODO
-    let len = array.len();
-    for x in 0..len
-    {
-        for y in (x+1)..len
-        {
-            if array[x] > array[y]
-            {
-                array.swap(x,y)
-            }
-        }
-    }
+    //let len = array.len();
+    array.sort();
 }
 #[cfg(test)]
 mod tests {
