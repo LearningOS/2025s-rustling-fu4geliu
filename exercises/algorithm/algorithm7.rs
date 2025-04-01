@@ -100,7 +100,21 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 fn bracket_match(bracket: &str) -> bool
 {
 	//TODO
-	true
+	let mut a =1;
+	for c in bracket.chars()
+	{
+		if c=='(' {a+=1};
+		if c==')' {a-=1};
+		if c=='[' {a*=2};
+		if c==']' {a/=2};
+		if c=='{' {a*=5};
+		if c=='}' {a/=5};
+	}
+	if a==1
+	{
+		return true
+	}
+	false
 }
 
 #[cfg(test)]
