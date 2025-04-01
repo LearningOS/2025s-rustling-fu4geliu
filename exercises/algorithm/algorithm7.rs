@@ -100,21 +100,41 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 fn bracket_match(bracket: &str) -> bool
 {
 	//TODO
-	let mut a =1;
-	for c in bracket.chars()
-	{
-		if c=='(' {a+=1};
-		if c==')' {a-=1};
-		if c=='[' {a*=2};
-		if c==']' {a/=2};
-		if c=='{' {a*=5};
-		if c=='}' {a/=5};
-	}
-	if a==1
-	{
-		return true
-	}
-	false
+	let mut stack = Stack::new(); 
+    for c in bracket.chars()  { 
+        match c { 
+            '(' | '[' | '{' => stack.push(c),  
+            ')' => { 
+                if let Some(top) = stack.pop()  { 
+                    if top != '(' { 
+                        return false; 
+                    } 
+                } else { 
+                    return false; 
+                } 
+            } 
+            ']' => { 
+                if let Some(top) = stack.pop()  { 
+                    if top != '[' { 
+                        return false; 
+                    } 
+                } else { 
+                    return false; 
+                } 
+            } 
+            '}' => { 
+                if let Some(top) = stack.pop()  { 
+                    if top != '{' { 
+                        return false; 
+                    } 
+                } else { 
+                    return false; 
+                } 
+            } 
+            _ => continue, 
+        } 
+    } 
+    stack.is_empty()
 }
 
 #[cfg(test)]
