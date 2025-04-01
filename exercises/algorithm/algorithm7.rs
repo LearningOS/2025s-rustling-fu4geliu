@@ -1,9 +1,4 @@
-/*
-	stack
-	This question requires you to use a stack to achieve a bracket match
-*/
-
-// I AM NOT DONE
+//DONE
 #[derive(Debug)]
 struct Stack<T> {
 	size: usize,
@@ -32,7 +27,10 @@ impl<T> Stack<T> {
 	}
 	fn pop(&mut self) -> Option<T> {
 		// TODO
-		None
+		if self.size > 0 {
+			self.size -= 1;
+		}
+		self.data.pop()
 	}
 	fn peek(&self) -> Option<&T> {
 		if 0 == self.size {
