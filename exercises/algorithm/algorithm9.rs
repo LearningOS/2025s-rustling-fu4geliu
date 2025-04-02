@@ -1,8 +1,4 @@
-/*
-	heap
-	This question requires you to implement a binary heap function
-*/
-// I AM NOT DONE
+//DONE
 
 use std::cmp::Ord;
 use std::default::Default;
@@ -38,6 +34,7 @@ where
 
     pub fn add(&mut self, value: T) {
         //TODO
+        
     }
 
     fn parent_idx(&self, idx: usize) -> usize {
