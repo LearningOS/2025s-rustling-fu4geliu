@@ -34,7 +34,25 @@ where
 
     pub fn add(&mut self, value: T) {
         //TODO
-        
+        let mut count = 0;
+        if self.count == 0 {
+            self.items[0] = value;
+            self.count += 1;
+            return
+        }
+        for i in &self.items
+        {
+            if (self.comparator)(&value, &i) {
+                self.items.insert(count, value);
+                self.count += 1;
+                return
+            }
+            count +=1;
+        }
+        if count == self.count{
+            self.items.push(value);
+            self.count += 1;
+        }
     }
 
     fn parent_idx(&self, idx: usize) -> usize {
@@ -76,13 +94,19 @@ where
 
 impl<T> Iterator for Heap<T>
 where
-    T: Default,
+    T: Default+Clone,
 {
     type Item = T;
 
     fn next(&mut self) -> Option<T> {
         //TODO
-		None
+        if self.count == 0
+        {
+            return None;
+        }
+		let first = self.items.remove(0);
+        self.items.push(first.clone());
+        Some(first)
     }
 }
 
